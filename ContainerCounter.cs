@@ -1,32 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-public class ClearCounter : MonoBehaviour,IKitchenObjectParent
+
+public class ContainerCounter : MonoBehaviour, IKitchenObjectParent
 {
-  
+    // Start is called before the first frame update
+
     [SerializeField] private KitchenObjectSO kitchenObjectSO;
     [SerializeField] private Transform counterTopPoint;
     private KitchenObject kitchenObject;
-    [SerializeField] private IKitchenObjectParent secondClearCounter;
-    [SerializeField] private bool testing;
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (testing && Input.GetKeyDown(KeyCode.T))
-        {
-            if (kitchenObject != null)
-            {
-                kitchenObject.SetKitchenObjectParent(secondClearCounter);
-            }
-        }
-    }
-
     public void Interact(Player player)
     {
         if (kitchenObject == null)

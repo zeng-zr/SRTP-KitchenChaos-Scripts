@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour,IKitchenObjectParent
 {
     public static Player Instance { get; private set; }
     public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
@@ -13,9 +13,11 @@ public class Player : MonoBehaviour
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private GameInput gameInput;
     [SerializeField] private LayerMask countersLayerMask;
+     [SerializeField] private Transform KitchenObjectHoldPoint;
     private ClearCounter selectedCounter;
     private bool isWalking;
     private Vector3 lastInteractDir;
+    private KitchenObject kitchenObject;
     private void Awake()
     {
         if (Instance != null)
@@ -133,8 +135,8 @@ public class Player : MonoBehaviour
         //将原先HandleInteractions()中的内容暂时放到了这里，并且暂时不再调用HandleInteractions()中的clearCounter.Interact()
         if (selectedCounter != null)
         {
-            selectedCounter.Interact();
-            //Debug.Log("")
+            selectedCounter.Interact(this);
+
         }
     }
     private void SetSelectedCounter(ClearCounter selectedCounter)
@@ -145,5 +147,28 @@ public class Player : MonoBehaviour
         {
             selectedCounter = selectedCounter
         });
+    }
+        public Transform GetKitchenObjectFollowTransform()
+    {
+        return KitchenObjectHoldPoint;
+    }
+    public void SetKitchenObject(KitchenObject kitchenObject)
+    {
+        this.kitchenObject = kitchenObject;
+    }
+
+    public KitchenObject GetKitchenObject()
+    {
+        return kitchenObject;
+    }
+
+    public void ClearKitchenObject()
+    {
+        kitchenObject = null;
+    }
+
+    public bool HasKitchenObject()
+    {
+        return kitchenObject != null;
     }
 }
