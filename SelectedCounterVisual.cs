@@ -5,16 +5,16 @@ using UnityEngine;
 public class SelectedCounterVisual : MonoBehaviour
 {
     // Start is called before the first frame update[SerializeField] private ClearCounter clearCounter;
-    [SerializeField] private GameObject visualGameObject;
-    [SerializeField] private ClearCounter clearCounter;
+    [SerializeField] private GameObject[] visualGameObjectArray;
+    [SerializeField] private BaseCounter baseCounter;
     private void Start()
     {
         Player.Instance.OnSelectedCounterChanged += Player_OnSelectedCounterChanged;
     }
-    
+
     private void Player_OnSelectedCounterChanged(object sender, Player.OnSelectedCounterChangedEventArgs e)
     {
-        if (e.selectedCounter == clearCounter)//
+        if (e.selectedCounter == baseCounter)//
         {
             show();
         }
@@ -26,11 +26,18 @@ public class SelectedCounterVisual : MonoBehaviour
 
     private void show()
     {
-        visualGameObject.SetActive(true);
+        foreach (GameObject visualGameObject in visualGameObjectArray)
+        {
+            visualGameObject.SetActive(true);
+        }
+
     }
-    
+
     private void hide()
     {
-        visualGameObject.SetActive(false);
+        foreach (GameObject visualGameObject in visualGameObjectArray)
+        {
+            visualGameObject.SetActive(false);
+        }
     }
 }
